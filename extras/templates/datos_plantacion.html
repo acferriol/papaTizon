@@ -1,0 +1,63 @@
+{% extends 'index_admin.html' %}
+{% load static %}
+
+{% block title %} Listado % de infestación {% endblock %}
+
+{% block content %}
+
+<form class="row g-3 m-2" method='get'>
+    <div class="row">
+      <div class="col-auto">
+      <label for="id_empresa" class="col-form-label"><strong>Empresa: </strong></label>
+      {{filter.form.empresa}}
+      </div>
+      <div class="col-auto">
+      <label for="id_date_range" class="col-form-label"><strong>Rango de tiempo: </strong></label>
+      {{filter.form.date_range}}
+      </div>
+      <div class="col-4">
+        <button type="submit" class="btn btn-primary mb-3">Filtrar</button>
+      </div>
+    </div>
+</form>
+
+
+{% if object_list %}
+<h1>Porcentajes de infestación</h1>
+<div class="table-responsive">
+    <table class="table align-middle  table-success table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Empresa</th>
+            <th scope="col">Cultivar</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Porcentaje</th>
+            <th scope="col">Eliminar</th>
+            
+          </tr>
+        </thead>    
+        <tbody>
+{% for clima in filter.qs %}
+        
+          <tr>
+            <th scope="row">{{clima.empresa}}</th>
+            <td>{{clima.cultivar}}</td>
+            <td>{{clima.fecha}}</td>
+            <td>{{clima.porcentaje}} %</td>
+            <td>
+              <a class="btn btn-danger" href="{% url 'extras:porcentaje_delete' clima.id %}">Eliminar</a>
+            </td>
+          </tr>
+        
+    {% endfor %}
+  </tbody>
+{% else %}
+<h1>No existen registros de plantaciones infestadas</h1>
+{% endif %}
+
+</table>
+
+
+</div>
+{% endblock content %}
+

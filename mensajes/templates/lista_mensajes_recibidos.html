@@ -1,0 +1,70 @@
+{% extends 'index_admin.html' %}
+{% load static %}
+
+{% block title %} Mensajes Recibidos {% endblock %}
+
+{% block content %}
+<form class="row g-3 m-2" method='get'>
+    <div class="row">
+      <div class="col-auto">
+      <label for="id_remitente" class="col-form-label"><strong>Remitente: </strong></label>
+      {{filter.form.remitente}}
+      </div>
+      <div class="col-auto">
+      <label for="id_pendiente" class="col-form-label"><strong>Recibido: </strong></label>
+      {{filter.form.recibido}}
+      </div>
+      <div class="col-4">
+        <button type="submit" class="btn btn-primary mb-3">Filtrar</button>
+      </div>
+    </div>
+</form>
+{% if object_list %}
+<h1>Mensajes Recibidos</h1>
+<div class="table-responsive ">
+    <table class="table align-middle">
+        <thead>
+          <tr>
+            <th scope="col">Remitente</th>
+            <th scope="col">Institucion</th>
+            <th scope="col">Tipo de Mensaje</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Ver</th>
+          </tr>
+        </thead>
+        <tbody>    
+{% for msj in object_list %}
+        
+          
+          <tr {% if msj.recibido is False %}class="table-warning" {% else %} class="table-success" {% endif %}>
+            <td>{{msj.remitente.username}}</td>
+            <td>{{msj.remitente.empresa}}</td>
+            <td>{{msj.tipodemensaje}}
+              
+              {% if msj.tipodemensaje == 'M' %}
+              <span class="badge bg-warning text-dark">Mensaje</span>
+              {% else %}
+                {% if msj.tipodemensaje == 'A' %}
+                <span class="badge bg-danger">Alerta</span>
+                <span class="badge bg-primary text-dark">{{msj.tipodealerta}}</span>
+                {% else %}
+                <span class="badge bg-info text-dark">Consulta</span>
+                {% endif %}
+              {% endif %}
+            </td>
+            <td>{{msj.created_at}}</td>
+            <td>
+                <a class="btn btn-success" href="{% url 'mensajes:mensaje_detalle' msj.id %}">Ver</a>
+            </td>
+          </tr>
+        
+    {% endfor %}
+  </tbody>
+{% else %}
+<h1>No existen mensajes recibidos</h1>
+{% endif %}
+
+</table>
+</div>
+{% endblock content %}
+

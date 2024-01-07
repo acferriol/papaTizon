@@ -1,0 +1,417 @@
+{% extends 'index_admin.html' %}
+{% load static %}
+
+{% block title %} Gráficos {% endblock %}
+
+{% block content %}
+
+<form class="row g-3 m-2" method='post'>
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-auto">
+        {{form.empresa.label}}
+        {{form.empresa}}
+      </div>
+      <div class="col-auto">
+        {{form.fecha_inicio.label}}
+        {{form.fecha_inicio}}
+      </div>
+      <div class="col-auto">
+        {{form.fecha_fin.label}}
+        {{form.fecha_fin}}
+      </div>
+      <div class="col-4">
+        <button type="submit" class="btn btn-primary mb-3">Generar</button>
+      </div>
+      {% if form.errors %}
+      <p>{{form.errors}}</p>
+      {% endif %}
+    </div>
+</form>
+    <div class="card-footer small text-muted">Es posible que los gráficos no se visualicen correctamente en todos los dispositivos. Intente visualizarlos desde un ordenador
+    </div>
+    {% if tmax %}
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-chart-area me-1"></i> Temperaturas y Precipitaciones
+        </div>
+        <div class="card-body" style="position:relative; height:80vh"><canvas id="myAreaChart"></canvas></div>
+        
+    </div>
+
+    <script src="{% static 'js/Chart.min.js' %}"></script>
+    <script src="{% static 'js/moment.js' %}"></script>
+    <script src="{% static 'js/moment-with-locales.min.js' %}"></script>
+    <script src="{% static 'js/chartjs-adapter-moment.js' %}"></script>
+    <script>
+        // Set new default font family and font color to mimic Bootstrap's default styling
+        moment.locale('es')
+        
+        Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+        Chart.defaults.global.defaultFontColor = '#292b2c';
+        
+        // Area Chart Example
+        var data1 = {
+            label: "Temp Máximas",
+            data: [{% for lim in tmax %} {x:'{{lim.0|safe}}', y:'{{lim.1}}'},{% endfor %}],
+            lineTension: 0.,
+            fill: false,
+            pointBorderWidth: 2,
+            borderColor: 'red',
+            showLine:true,
+        }
+        var data2 = {
+            label: "Lim. Temp Max.",
+            data: [{% for lim in limtmax %}{{lim}},{% endfor %}],
+            fill: false,
+            borderDash: [5, 5],
+            lineTension: 0.3,
+            borderColor: "#8c342b",
+            showLine:true,
+        }
+        var data3 = {
+            label: "Temp Media",
+            data: [{% for lim in tmed %} {x:'{{lim.0|safe}}', y:'{{lim.1}}'},{% endfor %}],
+            lineTension: 0.,
+            fill: false,
+            pointBorderWidth: 2,
+            borderColor: 'green',
+            showLine:true,
+        }
+        var data4 = {
+            label: "Lim. Temp Med.",
+            data: [{% for lim in limtmed %}{{lim}},{% endfor %}],
+            fill: false,
+            borderDash: [5, 5],
+            lineTension: 0.3,
+            borderColor: "#80ff80",
+            showLine:true,
+        }
+        var data5 = {
+            label: "Temp Mínimas",
+            data: [{% for lim in tmin %} {x:'{{lim.0|safe}}', y:'{{lim.1}}'},{% endfor %}],
+            lineTension: 0.,
+            fill: false,
+            pointBorderWidth: 2,
+            borderColor: 'blue',
+            showLine:true,
+        }
+        var data6 = {
+            label: "Lim. Temp Min.",
+            data: [{% for lim in limtmin %}{{lim}},{% endfor %}],
+            fill: false,
+            borderDash: [5, 5],
+            lineTension: 0.3,
+            borderColor: "#400080",
+            showLine:true,
+        }
+        var data7 = {
+            label: "Precipitaciones",
+            type:'bar',
+            backgroundColor:'rgba(255,255,0,0.5)',
+            borderColor:'yellow',
+            borderRadius:50,
+            data: [{% for lim in prec %} {x:'{{lim.0|safe}}', y:'{{lim.1}}'},{% endfor %}],
+            fill: true,
+            pointBorderWidth: 2,
+            lineTension: 0.3,
+            borderColor: "yellow"
+        };
+
+
+
+        var graph = {
+            labels: {{dates|safe}},
+            datasets: [data1, data2,data3,data4,data5,data6,data7]
+        };
+
+        var ctx = document.getElementById("myAreaChart").getContext('2d');
+        var myLineChart = new Chart(ctx, {
+            type: 'scatter',
+            data: graph,
+            options: {
+                showLine:true,
+                responsive:true,
+                locale:"es-ES",
+                maintainAspectRatio:false,
+                scales: {
+                    xAxes: [{
+                        type:'time',
+                        time: {
+                            unit: 'day'
+                        },
+                        gridLines: {
+                            display: true
+                        },
+                        ticks: {
+                            maxTicksLimit: 15
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            min: 0,
+                            max: 50,
+                            maxTicksLimit: 10
+                        },
+                        gridLines: {
+                            color: "rgba(0, 0, 0, .125)",
+                        }
+                    }],
+                },
+                legend: {
+                    display: true
+                }
+            }
+        });
+    </script>
+    {% endif %}
+    <!--00000000000000Grafico200000000000000--> 
+    {% if dates %}
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-chart-area me-1"></i> Monitoreo diario
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 col-12" style="position:relative; height:50vh">
+                    <canvas id="myAreaChart1"></canvas> 
+                </div>
+                <div class="col-md-6 col-12" style="position:relative; height:50vh">
+                    <canvas id="myAreaChart2"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer small text-muted"></div>
+    </div>
+
+    <script src="{% static 'js/Chart.min.js' %}"></script>
+    <script>
+        // Set new default font family and font color to mimic Bootstrap's default styling
+        Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+        Chart.defaults.global.defaultFontColor = '#292b2c';
+
+        // Area Chart Example
+
+        var ctx = document.getElementById("myAreaChart1").getContext('2d');
+        var myLineChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {{dates|safe}},
+                datasets: [{
+                    pointRadius: 8,
+                    backgroundColor: [{% for lim in colors1 %}'{{lim}}',{% endfor %}],
+                    data: [{% for lim in favs %}{{lim|safe}},{% endfor %}],
+                    label: "Días"
+                },
+                {
+                    data: [{% for lim in area %}{{lim|safe}},{% endfor %}], 
+                    fill:true,
+                    pointRadius:0,
+                    backgroundColor: 'rgba(255,0,0,0.5)',
+                    label:"Posible aparicion",
+                    showLine:true,
+                    steppedLine:'before'
+                }]
+            },
+            options: {
+                responsive:true,
+                maintainAspectRatio:false,
+                showLines:false,
+                scales: {
+                    xAxes: [{
+                        type:'time',
+                        time: {
+                            unit: 'day'
+                        },
+                        gridLines: {
+                            display: true
+                        },
+                        ticks: {
+                            maxTicksLimit: 15
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            callback: function(value,index,ticks){
+                                if(value==0)
+                                    return 'No favorable';
+                                if(value==1)
+                                    return 'Favorable';
+                                return "No determinado";
+                            },
+                            min: -1,
+                            max: 1,
+                            maxTicksLimit: 4
+                        },
+                        gridLines: {
+                            color: "rgba(0, 0, 0, .125)",
+                        }
+                    }],
+                },
+                legend: {
+                    display: true
+                }
+            }
+        });
+    </script>
+    <script>
+        // Set new default font family and font color to mimic Bootstrap's default styling
+        Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+        Chart.defaults.global.defaultFontColor = '#292b2c';
+
+        // Area Chart Example
+
+        var ctx = document.getElementById("myAreaChart2").getContext('2d');
+        var myLineChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{dates|safe}},
+                datasets:[{
+                    data: [{% for lim in sevs %}{{lim}},{% endfor %}],
+                    label: "Severidad",
+                    backgroundColor:'rgba(0,0,125,0.5)',
+                    borderColor:'blue',
+                    borderRadius:50,
+                },
+
+                ]
+                
+            },
+            options: {
+                responsive:true,
+                maintainAspectRatio:false,
+                scales: {
+                    xAxes: [{
+                        type:'time',
+                        time: {
+                            unit: 'day'
+                        },
+                        gridLines: {
+                            display: true
+                        },
+                        ticks: {
+                            maxTicksLimit: 15
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            min: 0,
+                            max: 5,
+                            maxTicksLimit: 6,
+                            minTicksLimit: 5
+                        },
+                        gridLines: {
+                            color: "rgba(0, 0, 0, .125)",
+                        }
+                    }],
+                },
+                legend: {
+                    display: true
+                }
+            }
+        });
+    </script>
+    {% endif %}
+
+    <!--000000000000GRAFICO3000000000000000000-->
+    {% if semanal %}
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-chart-area me-1"></i> Seguimiento semanal
+        </div>
+        <div class="card-body" style="position:relative; height:80vh"><canvas id="myAreaChart3"></canvas></div>
+        <div class="card-footer small text-muted py-4"></div>
+    </div>
+    <script>
+        var ctx = document.getElementById("myAreaChart3").getContext('2d');
+        var myLineChart = new Chart(ctx, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    pointRadius: 8,
+                    pointStyle:"rect",
+                    backgroundColor: [{% for lim in colors2 %}'{{lim}}',{% endfor %}],
+                    data: [{% for lim in semanal %} {x:'{{lim.0|safe}}', y:'{{lim.1}}'},{% endfor %}],
+                },
+                {
+                    data: [{% for lim in area2 %} {x:'{{lim.0|safe}}', y:'{{lim.1}}'},{% endfor %}],
+                    fill:true,
+                    label:"Posible aparicion",
+                    pointRadius:0,
+                    backgroundColor: 'rgba(255,0,0,0.5)',
+                    showLine:true,
+                    steppedLine:'before'
+                },
+                {label:"Vigilancia",backgroundColor:'brown'},
+                {label:"Diagnóstico Inicial",backgroundColor:'blue'},
+                {label:"Registro de Aparición",backgroundColor:'black'},
+                {label:"No aspersión",backgroundColor:'green'},
+                {label:"Alerta Tizón",backgroundColor:'yellow'},
+                {label:"Aspersión cada 7 dias",backgroundColor:'orange'},
+                {label:"Aspersión cada 5 dias",backgroundColor:'red'},
+                ]
+            },
+            options: {
+                responsive:true,
+                maintainAspectRatio:false,
+                showLines:false,
+                pointStyle:"rect",
+                scales: {
+                    xAxes: [{
+                        type:'time',
+                        time: {
+                            unit: 'week'
+                        },
+                        gridLines: {
+                            color: "rgba(0, 0, 0, 100)",
+                            
+                        },
+                        ticks: {
+                            maxTicksLimit: 15
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            callback: function(value,index,ticks){
+                                if(value==0)
+                                    return 'Vigilancia';
+                                if(value==1)
+                                    return 'Diagnóstico Inicial';
+                                if(value==2)
+                                    return 'Registro de Aparición';
+                                if(value==3)
+                                    return 'No aspersión';
+                                if(value==4)
+                                    return 'Alerta Tizón';
+                                if(value==5)
+                                    return 'Aspersión cada 7 días'
+                                return "Aspersión cada 5 días";
+                            },
+                            min: 0,
+                            max: 6,
+                            maxTicksLimit: 7
+                        },
+                        gridLines: {
+                            color: "rgba(0, 0, 0, .125)",
+                        }
+                    }],
+                },
+                legend: {
+                    display: true,
+                    labels:{
+                        filter: function(legendItem, data){
+                            return legendItem.datasetIndex!=0;
+                        }
+                    },
+                    onClick:null,
+                }
+            }
+        });
+
+    </script>
+
+    {% endif %}
+
+{% endblock content %}
+
+</html>

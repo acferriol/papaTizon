@@ -1,0 +1,16 @@
+{% extends 'index_admin.html' %}
+{% load static %}
+
+{% block title %} Eliminar Estación {% endblock %}
+
+{% block content %}
+<div class="container">
+<form method="post">
+    
+    {% csrf_token %}
+    <h3>Está seguro que desea eliminar la estacion {{object.num_estacion}} :</h3>
+    <button class="btn btn-danger" type="submit">Eliminar</button>
+    <a class="btn btn-secondary" href="{% url 'estacion:lista_estacion' %}">Cancelar</a>
+</form>
+</div>
+{% endblock content %}

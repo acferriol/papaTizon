@@ -1,0 +1,47 @@
+{% extends 'index_admin.html' %}
+{% load static %}
+
+{% block title %} Listado del Día {% endblock %}
+{% block content %}
+
+{% if object_list %}
+<div class="table-responsive">
+    <table class="table align-middle">
+        <thead>
+          <tr>
+            <th scope="col">Fecha</th>
+            <th scope="col">Estacion</th>
+            <th scope="col">Temp_MED</th>
+            <th scope="col">Temp_MAX</th>
+            <th scope="col">Temp_MIN</th>
+            <th scope="col">Precipitaciones</th>
+            <th scope="col">Humedad Rel.</th>
+            <th scope="col">Horas HR > 90%</th>
+            <th scope="col">Editar</th>
+          </tr>
+        </thead>    
+{% for clima in object_list %}
+        <tbody>
+          <tr>
+            <th scope="row">{{clima.fecha}}</th>
+            <td>{{clima.estacion}}</td>
+            <td>{{clima.temperatura_media}}</td>
+            <td>{{clima.temperatura_maxima}}</td>
+            <td>{{clima.temperatura_minima}}</td>
+            <td>{{clima.precipitacion}}</td>
+            <td>{{clima.horas_hr_90}}</td>
+            <td>{{clima.temperatura_media_hr_90}}</td>
+            <td>
+                <a class="btn btn-success" href="{% url 'clima:editar_clima' clima.id %}">Editar</a>
+            </td>
+          </tr>
+        </tbody>
+    {% endfor %}
+{% else %}
+<h1>No existen registros climáticos hoy</h1>
+{% endif %}
+
+</table>
+</div>
+{% endblock content %}
+

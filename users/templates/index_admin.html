@@ -1,0 +1,451 @@
+{% extends 'base.html' %} {% load static %}
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+
+{% block title %} HOME {% endblock %} {% block header %}
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+  <!-- Sidebar Toggle-->
+  <a
+    class="btn btn-light m-1"
+    data-bs-toggle="offcanvas"
+    href="#offcanvasExample"
+    role="button"
+    aria-controls="offcanvasExample"
+    >Menu</a
+  >
+  <!-- Navbar Brand-->
+  <a class="navbar-brand ps-3" href="#">Bienvenido a CLIMTIZ</a>
+  <!-- Navbar Search-->
+  <form
+    class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0"
+  >
+    <div class="input-group">
+      <b style="color: white">Usuario: {{request.user}}</b>
+    </div>
+  </form>
+  <!-- Navbar-->
+  <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+    <li class="nav-item dropdown">
+      <a
+        class="nav-link dropdown-toggle"
+        id="navbarDropdown"
+        href="#"
+        role="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+        ><i class="fas fa-user fa-fw"></i
+      ></a>
+      <ul
+        class="dropdown-menu dropdown-menu-end"
+        aria-labelledby="navbarDropdown"
+      >
+        <li>
+          <hr class="dropdown-divider" />
+        </li>
+        <li>
+          <a class="dropdown-item" href="{% url 'users:logout'%}"
+            >Cerrar Sesion</a
+          >
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+{% if request.user.is_admin %}
+<div
+  class="offcanvas offcanvas-start bg-dark"
+  tabindex="-1"
+  id="offcanvasExample"
+  aria-labelledby="offcanvasExampleLabel"
+>
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title text-white" id="offcanvasExampleLabel">Menu</h5>
+    <button
+      type="button"
+      class="btn-close text-reset"
+      data-bs-dismiss="offcanvas"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link disabled text-gray h2">Principal</a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link active text-white h4"
+          aria-current="page"
+          href="{% url 'index' %}"
+          >Inicio</a
+        >
+      </li>
+    </ul>
+    <br />
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link disabled text-gray h2">Clima</a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link active text-white h4"
+          aria-current="page"
+          href="{% url 'clima:crear_clima'%}"
+          >Insertar datos de hoy</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link text-white h4"
+          href="{% url 'clima:lista_clima_hoy'%}"
+          >Editar datos de hoy</a
+        >
+      </li>
+    </ul>
+    <br />
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link disabled text-gray h2">Mensajes</a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link active text-white h4"
+          aria-current="page"
+          href="{% url 'mensajes:redactar_mensaje' %}"
+          >Enviar mensaje</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link text-white h4"
+          href="{% url 'mensajes:mensajes_enviados' %}"
+          >Mensajes enviados</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link text-white h4"
+          href="{% url 'mensajes:mensajes_recibidos' %}"
+          >Mensajes recibidos {% if test > 0 %}<span
+            class="badge text-black bg-primary"
+            >{{test}}</span
+          >{% endif %}
+        </a>
+      </li>
+    </ul>
+    <br />
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link disabled text-gray h2">Resultados</a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link active text-white h4"
+          aria-current="page"
+          href="{% url 'clima:lista_clima'%}"
+          >Revisar resultados</a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white h4" href="{% url 'multimedia:graficos' %}"
+          >Graficos</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link text-white h4"
+          href="{% url 'clima:resumen_semanal' %}"
+          >Monitoreo semanal</a
+        >
+      </li>
+    </ul>
+    <br />
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link disabled text-gray h2">Usuarios</a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link active text-white h4"
+          aria-current="page"
+          href="{% url 'users:lista_users' %}"
+          >Aprobar Usuarios</a
+        >
+      </li>
+    </ul>
+    <br />
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link disabled text-gray h2">Estaciones</a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link active text-white h4"
+          aria-current="page"
+          href="{% url 'estacion:crear_estacion' %}"
+          >Añadir Estacion</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link active text-white h4"
+          aria-current="page"
+          href="{% url 'estacion:lista_estacion' %}"
+          >Administrar Estaciones</a
+        >
+      </li>
+    </ul>
+    <br />
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link disabled text-gray h2">Empresas</a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link active text-white h4"
+          aria-current="page"
+          href="{% url 'empresa:crear_empresa' %}"
+          >Añadir Empresa</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link active text-white h4"
+          aria-current="page"
+          href="{% url 'empresa:lista_empresa' %}"
+          >Administrar Empresas</a
+        >
+      </li>
+    </ul>
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link disabled text-gray h2">Otras funciones</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled text-gray h3">Aparición Inicial</a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link active text-white h4"
+          aria-current="page"
+          href="{% url 'extras:aparicion' %}"
+          >Registrar aparicion inicial</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link active text-white h4"
+          aria-current="page"
+          href="{% url 'extras:aparicion_list' %}"
+          >Revisar apariciones iniciales del hongo</a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled text-gray h3">Infestacion</a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link active text-white h4"
+          aria-current="page"
+          href="{% url 'extras:porcentaje' %}"
+          >Registrar porcentaje de infestacion</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link active text-white h4"
+          aria-current="page"
+          href="{% url 'extras:porcentaje_list' %}"
+          >Revisar porcentaje de infestacion</a
+        >
+      </li>
+    </ul>
+  </div>
+</div>
+{% else %}
+<div
+  class="offcanvas offcanvas-start bg-dark"
+  tabindex="-1"
+  id="offcanvasExample"
+  aria-labelledby="offcanvasExampleLabel"
+>
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title text-white" id="offcanvasExampleLabel">Menu</h5>
+    <button
+      type="button"
+      class="btn-close text-reset"
+      data-bs-dismiss="offcanvas"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link disabled text-gray h2">Principal</a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link active text-white h4"
+          aria-current="page"
+          href="{% url 'index' %}"
+          >Inicio</a
+        >
+      </li>
+    </ul>
+    <br />
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link disabled text-gray h2">Mensajes</a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link active text-white h4"
+          aria-current="page"
+          href="{% url 'mensajes:redactar_mensaje' %}"
+          >Enviar mensaje</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link text-white h4"
+          href="{% url 'mensajes:mensajes_enviados' %}"
+          >Mensajes enviados</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link text-white h4"
+          href="{% url 'mensajes:mensajes_recibidos' %}"
+          >Mensajes recibidos {% if test > 0 %}<span
+            class="badge text-black bg-primary"
+            >{{test}}</span
+          >{% endif %}
+        </a>
+      </li>
+    </ul>
+    <br />
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link disabled text-gray h2">Resultados</a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link active text-white h4"
+          aria-current="page"
+          href="{% url 'clima:lista_clima'%}"
+          >Revisar resultados</a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white h4" href="{% url 'multimedia:graficos' %}"
+          >Graficos</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link text-white h4"
+          href="{% url 'clima:resumen_semanal' %}"
+          >Monitoreo semanal</a
+        >
+      </li>
+    </ul>
+    <br />
+
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link disabled text-gray h2">Otras funciones</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled text-gray h3">Aparición Inicial</a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link active text-white h4"
+          aria-current="page"
+          href="{% url 'extras:aparicion_list' %}"
+          >Revisar apariciones iniciales del hongo</a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled text-gray h3">Infestacion</a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link active text-white h4"
+          aria-current="page"
+          href="{% url 'extras:porcentaje_list' %}"
+          >Revisar porcentaje de infestacion</a
+        >
+      </li>
+    </ul>
+  </div>
+</div>
+{% endif %} {% endblock header %} {% block content %}
+
+<div class="container-fluid p-0">
+  <div class="col-12">
+    <div
+      id="carouselExampleSlidesOnly"
+      class="carousel slide"
+      data-bs-ride="carousel"
+    >
+      <div class="carousel-inner h-100">
+        <div class="carousel-item active" data-bs-interval="2000">
+          <img src="{% static "images/portada.png" %}" class="d-block w-100"
+          alt="...">
+        </div>
+        <div class="carousel-item" data-bs-interval="2000">
+          <img src="{% static "images/portada2.jpg" %}" class="d-block w-100"
+          alt="...">
+        </div>
+        <div class="carousel-item" data-bs-interval="2000">
+          <img src="{% static "images/portada3.png" %}" class="d-block w-100"
+          alt="...">
+        </div>
+        <div class="overlay">
+          <div class="container">
+            <div class="row align-items-center justify-content-center">
+              <div class="col-12 mt-2">
+                <h1>
+                  Sistema Informático para el prónostico climático del tizón
+                  tardío
+                </h1>
+                <p>
+                  Este sistema fue desarrollado para facilitar la comunicación
+                  de las predicciones realizadas para detectar el tizón tardío
+                  en las plantaciones de papa del país.
+                </p>
+                  <div class="container-fluid d-flex align-items-start">
+                      <div class="container org">
+                        <img src="{% static "images/uclv.png" %}"
+                        class="logo" alt="...">
+                      </div>
+                    
+                      <div class="container org">
+                        <img src="{% static "images/MFC.png" %}"
+                        class="logo" alt="...">
+                      </div>
+                    
+                      <div class="container org">
+                        <img src="{% static "images/FCA.png" %}" class="logo"
+                        alt="...">
+                      </div>
+                    
+                    
+                  </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endblock content %}
+    </div>
+  </div>
+</div>

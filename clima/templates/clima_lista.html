@@ -1,0 +1,117 @@
+{% extends 'index_admin.html' %}
+{% load static %}
+
+
+{% block title %} Listado General {% endblock %}
+
+{% block content %}
+
+<form class="row g-3 m-2" method='get'>
+    <div class="row">
+      <div class="col-auto">
+      <label for="id_empresa" class="col-form-label"><strong>Empresa: </strong></label>
+      {{filter.form.empresa}}
+      </div>
+      <div class="col-auto">
+      <label for="id_date_range" class="col-form-label"><strong>Rango de tiempo: </strong></label>
+      {{filter.form.date_range}}
+      </div>
+      <div class="col-4">
+        <button type="submit" class="btn btn-primary mb-3">Filtrar</button>
+      </div>
+    </div>
+</form>
+{% if object_list %}
+<div class="table-responsive">
+    <table class="table align-middle  table-success table-striped">
+      <tfoot class="mb-1 py-4">
+        <div class="alert alert-info" role="alert">
+        Los valores -1 en días favorables y severidad corresponden a indeterminaciones por ausencia de datos
+        <div>
+      </tfoot>
+        <thead>
+          <tr>
+            <th scope="col">Fecha</th>
+            <th scope="col">Estación</th>
+            <th scope="col">Empresa</th>
+            <th scope="col">Temp_MED</th>
+            <th scope="col">Temp_MAX</th>
+            <th scope="col">Temp_MIN</th>
+            <th scope="col">Precipitaciones</th>
+            <th scope="col">Horas HR > 90%</th>
+            <th scope="col">Temp_med con HR>90%</th>
+            <th scope="col">Día favorable</th>
+            <th scope="col">Severidad</th>
+            <th scope="col">Diagnóstico</th> 
+          </tr>
+        </thead>  
+        <tbody>  
+{% for clima in object_list %}
+        
+          <tr>
+            <th scope="row">{{clima.fecha}}</th>
+            <td>{{clima.estacion}}</td>
+            <td>{{clima.empresa__nombre}}</td>
+            <td>{{clima.temperatura_media}}</td>
+            <td>{{clima.temperatura_maxima}}</td>
+            <td>{{clima.temperatura_minima}}</td>
+            <td>{{clima.precipitacion}}</td>
+            <td>{{clima.horas_hr_90}}</td>
+            <td>{{clima.temperatura_media_hr_90}}</td>
+            <td>{{clima.favorable}}</td>
+            <td>{{clima.severidad}}</td>
+            <td>
+              {% if clima.deteccion_inicial > 1 %}
+              <span class="badge bg-warning text-dark">Ya se diagnosticó</span>
+              {% else %}
+                {% if clima.deteccion_inicial == 1 %}
+                <span class="badge bg-danger">Diagnóstico inicial</span>
+                {% else %}
+                <span class="badge bg-success text-dark">No se ha producido</span>
+                {% endif %}
+              {% endif %}
+            </td>
+          </tr>
+        
+    {% endfor %}
+    
+  </tbody>
+
+
+
+</table>
+
+<!--p>{{parametros}}</!--p-->
+{% if is_paginated %}
+<tfoot class="py-5">
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{page_obj.previous_page_number}}{% if parametros.urlencode %}&{{parametros.urlencode}}{% endif %}" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      {% endif %}
+      <li class="page-item">&nbsp Página {{page_obj.number}} de {{page_obj.paginator.num_pages}} &nbsp</li>
+      {% if page_obj.has_next %}
+      <li class="page-item">
+        
+        <a class="page-link" href="?page={{page_obj.next_page_number}}{% if parametros.urlencode %}&{{parametros.urlencode}}{% endif %}" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+  </nav>
+</tfoot>
+{% endif %}
+
+{% else %}
+<h1>No existen registros climáticos</h1>
+{% endif %}
+
+
+</div>
+{% endblock content %}
+

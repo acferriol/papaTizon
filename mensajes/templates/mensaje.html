@@ -1,0 +1,62 @@
+{% extends 'index_admin.html' %}
+{% load static %}
+
+{% block title %} Mensaje {% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <div class="card shadow-lg border-2 rounded-lg mt-5">
+        <div class="card-body">
+            <form class="row g-3" method="post">
+            {% csrf_token %}
+            <div class="col-md-3 mb-3">
+                <label for="id_remitente">Remitente</label>
+                <input name="remitente" class="form-control" required="" id="id_remitente" value="{{object.remitente}}" disabled readonly>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="id_remitente_empresa">Empresa Remitente</label>
+                <input name="remitente_empresa" class="form-control" required="" id="id_remitente_empresa" value="{{object.remitente.empresa}}" disabled readonly>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="id_destinatario">Destinatario</label>
+                <input name="destinatario" class="form-control" required="" id="id_destinatario" value="{{object.destinatario}}" disabled readonly>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="id_remitente_empresa">Empresa Destinatario</label>
+                <input name="destinatario_empresa" class="form-control" required="" id="id_destinatario_empresa" value="{{object.destinatario.empresa}}" disabled readonly>
+            </div>
+            <div class="col-md-2 mb-3">
+                <label for="mensaje_tipo">Tipo de mensaje</label>
+                <input name="mensaje_tipo" class="form-control" required="" id="mensaje_tipo" value="{{object.tipodemensaje}}" disabled readonly>
+            </div>
+            {% if object.tipodealerta %}
+            <div class="col-md-2 mb-3">
+                <label for="alerta_tipo">Tipo de alerta</label>
+                <input name="alerta_tipo" class="form-control" required="" id="alerta_tipo" value="{{object.tipodealerta}}" disabled readonly>
+            </div>
+            {% endif %}
+            <div class="mb-3">
+                <label for="mensaje">Mensaje</label>
+                <textarea name="mensaje" class="form-control" required="" id="mensaje" disabled readonly>{{object.mensaje}}</textarea>
+            </div>
+
+            {% if object.img %}
+            <div class="mb-3">
+                <p>Adjunto: <a href="{{object.img.url}}" download>{{object.img.name}}</a></p>
+            </div>
+            {% endif %}
+            
+            </form>
+        </div>
+        <div class="card-footer text-center py-5">
+            <a class="btn btn-success" href="{% url 'mensajes:mensajes_recibidos' %}">Ir a Recibidos</a>
+            <a class="btn btn-success" href="{% url 'mensajes:mensajes_enviados' %}">Ir a Enviados</a>
+            {% if form.errors %}
+            <p>{{form.errors}}</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}
+

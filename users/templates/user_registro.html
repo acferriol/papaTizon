@@ -1,0 +1,172 @@
+{% extends 'base.html' %} {% load static %}
+
+<!DOCTYPE html>
+<html lang="es-mx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+{% block title %} Registrarse {% endblock %} 
+
+<body>
+    {% block header %}{% endblock header %} {% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7 mt-2">
+                <p>Por favor antes de registrarse lea los <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Terminos y condiciones
+                </button></p>
+                <div class="card shadow-lg border-0 rounded-lg mt-4 mb-5">
+                    <div class="card-header bg-primary">
+                        <h3 class="text-center font-weight-light my-4">Registrarse</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" class="needs-validation" novalidate>
+                            {% csrf_token %}
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    {{form.username}}
+                                </div>
+                                <div class="col-md-6">
+                                    {{form.empresa.label}}
+                                    {{form.empresa}}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="mb-3">
+                                {{form.email}}
+                            </div>
+                            <br>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    {{form.password1}}
+                                </div>
+                                <div class="col-md-6">
+                                    {{form.password2}}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    {{form.first_name}}
+                                </div>
+                                <div class="col-md-6">
+                                    {{form.last_name}}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    {{form.cargo}}
+                                </div>
+                                <div class="col-md-6">
+                                    {{form.edad}}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="mb-3">
+                                <p>Sexo:</p>
+                                {{form.sexo}}
+                            </div>
+                            <br>
+                            <div class="col-12">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                                  <label class="form-check-label" for="invalidCheck">
+                                    De acuerdo con los términos y condiciones
+                                  </label>
+                                  <div class="invalid-feedback">
+                                    Debe estar de acuerdo para continuar
+                                  </div>
+                                </div>
+                            </div>
+                            {% if form.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{form.errors}}
+                            </div>
+                            {% endif %}
+                            <div class="mt-4 mb-0">
+                                <div class="d-grid"><button type="submit" class="btn btn-primary btn-block">Registrarse</button></div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer text-center py-4">
+                        <div class="small"><a href="{% url 'login' %}">Si ya tienes cuenta ir a login</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Términos y condiciones de uso</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p>
+                <h4>INFORMACIÓN RELEVANTE</h4>
+                <p>
+                    Es requisito necesario para la manipulación de la información que se ofrece en este sitio, que lea y acepte los siguientes Términos y Condiciones que a continuación se redactan. El uso de nuestros servicios implicará que usted ha leído y aceptado los Términos y Condiciones de Uso en el presente documento. La información ofrecida por nuestro sitio web pudiera ser creada, enviadas o presentadas por una página web tercera y en tal caso estarían sujetas a sus propios Términos y Condiciones. Será necesario el registro por parte del usuario, con ingreso de datos personales fidedignos y definición de una contraseña.
+El usuario puede elegir y cambiar la clave para su acceso de administración de la cuenta en cualquier momento, en caso de que se haya registrado y haya sido aprobado. No se asume por parte de los creadores de este sitio la responsabilidad en caso de que entregue dicha clave a terceros.
+
+                </p>
+                <h4>USO NO AUTORIZADO</h4>
+                <p>
+                    En caso de que aplique usted no puede colocar la información de este sitio, modificada o sin modificar, en un dispositivo de almacenamiento, sitio web o ningún otro medio y ofrecerlos para la distribución o la venta de ningún tipo.
+                </p>
+
+                <h4>PROPIEDAD</h4>
+                <p>
+                    Usted no puede declarar propiedad intelectual o exclusiva sobre ninguna de las informaciones brindadas en este sitio, modificada o sin modificar. Todos los datos meteorológicos son propiedad del Instituto de Meteorología. Las informaciones obtenidas a partir de dichos datos son propiedad de la Universidad Central Marta Abreu de Las Villas.
+                </p>
+                <h4>PRIVACIDAD</h4>
+                <p>
+                    La información personal que usted envía cuenta con la seguridad necesaria. Los datos ingresados para registro de usuario no serán entregados a terceros, salvo que deban ser revelados en cumplimiento a una orden judicial o requerimientos legales.
+                </p>
+              </p>
+            </div>
+            <div class="modal-footer">
+              <div class="text-muted">Copyright © Universidad Central "Marta Abreu" de Las Villas . Todos Los derechos reservados</div>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Entendido</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+(function () {
+    'use strict'
+  
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.querySelectorAll('.needs-validation')
+  
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms)
+      .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+  
+          form.classList.add('was-validated')
+        }, false)
+      })
+  })()
+      </script>
+
+    {% endblock content %}
+</body>
+
+
+
+
+</html>

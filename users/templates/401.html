@@ -1,0 +1,40 @@
+{% extends 'base.html' %} {% load static %}
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        {% block title %} 401 Error - SB Admin {% endblock %} 
+    </head>
+    <body>
+        {% block header %}{% endblock header %}
+        {% block content %}
+        <div id="layoutError">
+            <div id="layoutError_content">
+                <main>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6">
+                                <div class="text-center mt-4">
+                                    <h1 class="display-1">401</h1>
+                                    <p class="lead">No autorizado</p>
+                                    <p>Su usuario aún no ha sido aprobado por el administrador</p>
+                                    <a href="{% url 'login' %}">
+                                        <i class="fas fa-arrow-left me-1"></i>
+                                        Volver al login
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        
+        </div>
+        {% endblock content %}
+        {% block footer %}{% endblock footer %}
+    </body>
+</html>

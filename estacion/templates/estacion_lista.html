@@ -1,0 +1,41 @@
+{% extends 'index_admin.html' %}
+{% load static %}
+
+{% block title %} Listado Estaciones {% endblock %}
+
+{% block content %}
+
+{% if object_list %}
+<div class="table-responsive ">
+    <table class="table align-middle  table-success table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Provincia</th>
+            <th scope="col">Opciones</th>
+          </tr>
+        </thead>    
+        <tbody>
+{% for estacion in object_list %}
+        
+          <tr>
+            <th scope="row">{{estacion.num_estacion}}</th>
+            <td>{{estacion.nombre}}</td>
+            <td>{{estacion.provincia}}</td>
+            <td>
+                <a class="btn btn-success" href="{% url 'estacion:editar_estacion' estacion.num_estacion %}">Editar</a>
+                <a class="btn btn-danger" href="{% url 'estacion:eliminar_estacion' estacion.num_estacion %}">Eliminar</a>
+            </td>
+          </tr>
+       
+    {% endfor %}
+  </tbody>
+{% else %}
+<h1>No existen estaciones en el sistema</h1>
+{% endif %}
+
+</table>
+</div>
+{% endblock content %}
+

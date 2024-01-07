@@ -1,0 +1,53 @@
+{% extends 'index_admin.html' %}
+{% load static %}
+
+{% block title %} Redactar Mensaje {% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <div class="card shadow-lg border-2 rounded-lg mt-5">
+        <div class="card-body">
+            <form class="row g-3" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="id_remitente">Remitente</label>
+                <input name="remitente" class="form-control" required="" id="id_remitente" value="{{request.user}}" disabled readonly>
+            </div>
+            <div class="mb-3">
+                {{form.destinatario.label}}
+                {{form.destinatario}}
+            </div>
+            <div class="mb-3">
+                {{form.tipodemensaje.label}}
+                {{form.tipodemensaje}}
+            </div>
+            <div class="mb-3">
+                {{form.tipodealerta.label}}
+                <div class="alert alert-warning" role="alert">
+                    Utilice solo si desea enviar una alerta
+                </div>
+                {{form.tipodealerta}}
+            </div>
+            <div class="mb-3">
+                {{form.mensaje.label}}
+                {{form.mensaje}}
+            </div>
+            <div class="mb-3">
+                {{form.img.label}}
+                {{form.img}}
+            </div>
+            <div class="d-flex justify-content-md-center">
+                <button class="btn btn-success" type="submit" style="width:20%">Enviar</button>
+            </div>
+            </form>
+        </div>
+        <div class="card-footer text-center py-5">
+            {% if form.errors %}
+            <p>{{form.errors}}</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}
+

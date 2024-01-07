@@ -1,0 +1,46 @@
+{% extends 'index_admin.html' %}
+{% load static %}
+
+{% block title %} Aprobar usuario {% endblock %} 
+
+{% block content %}
+<div class="table-responsive">
+    <table class="table align-middle">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Usuario</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellidos</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Empresa</th>
+            <th scope="col">Cargo</th> 
+            <th scope="col">Edad</th>
+            <th scope="col">Sexo</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+              <th scope="row">{{object.id}}</th>
+              <td>{{object.username}}</td>
+              <td>{{object.first_name}}</td>
+              <td>{{object.last_name}}</td>
+              <td>{{object.email}}</td>
+              <td>{{object.empresa}}</td>
+              <td>{{object.cargo}}</td>
+              <td>{{object.edad}}</td>
+              <td>{{object.sexo}}</td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+<div class="container">
+<form method="post">
+    
+    {% csrf_token %}
+    <h3>Está seguro que desea aprobar este usuario</h3>
+    <button class="btn btn-success" type="submit">Aprobar</button>
+    <a class="btn btn-secondary" href="{% url 'users:lista_users' %}">Cancelar</a>
+</form>
+</div>
+{% endblock content %}

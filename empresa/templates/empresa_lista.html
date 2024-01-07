@@ -1,0 +1,47 @@
+{% extends 'index_admin.html' %}
+{% load static %}
+
+{% block title %} Listado Empresas {% endblock %}
+
+{% block content %}
+
+{% if object_list %}
+<div class="table-responsive ">
+    <table class="table align-middle  table-success table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Estacion</th>
+            <th scope="col">Representante</th>
+            <th scope="col">Municipio</th>
+            <th scope="col">Provincia</th>
+            <th scope="col">Opciones</th>
+          </tr>
+        </thead>    
+        <tbody>
+{% for empresa in object_list %}
+       
+          <tr>
+            <th scope="row">{{empresa.id}}</th>
+            <td>{{empresa.nombre}}</td>
+            <td>{{empresa.estacion}}</td>
+            <td>{{empresa.representante}}</td>
+            <td>{{empresa.municipio}}</td>
+            <td>{{empresa.provincia}}</td>
+            <td>
+                <a class="btn btn-success" href="{% url 'empresa:editar_empresa' empresa.id %}">Editar</a>
+                <a class="btn btn-danger" href="{% url 'empresa:eliminar_empresa' empresa.id %}">Eliminar</a>
+            </td>
+          </tr>
+        
+    {% endfor %}
+  </tbody>
+    {% else %}
+<h1>No existen empresas en el sistema</h1>
+{% endif %}
+
+</table>
+</div>
+{% endblock content %}
+

@@ -1,0 +1,46 @@
+{% extends 'index_admin.html' %}
+{% load static %}
+
+{% block title %} Usuarios pendientes {% endblock %} 
+
+
+{% block content %}
+
+{% if object_list %}
+<div class="table-responsive">
+    <table class="table align-middle">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Usuario</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellidos</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Empresa</th>
+            <th scope="col">Opciones</th>
+          </tr>
+        </thead>    
+{% for user in object_list %}
+        <tbody>
+          <tr>
+            <th scope="row">{{user.id}}</th>
+            <td>{{user.username}}</td>
+            <td>{{user.first_name}}</td>
+            <td>{{user.last_name}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.empresa}}</td>
+            <td>
+                <a class="btn btn-success" href="{% url 'users:aprobar_user' user.id %}">Aprobar</a>
+                <a class="btn btn-danger" href="{% url 'users:eliminar_user' user.id %}">No Aprobar</a>
+            </td>
+          </tr>
+        </tbody>
+    {% endfor %}
+{% else %}
+<h1>No existen Usuarios pendientes por aprobar</h1>
+{% endif %}
+
+</table>
+</div>
+{% endblock content %}
+

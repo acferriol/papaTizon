@@ -1,0 +1,52 @@
+{% extends 'index_admin.html' %}
+{% load static %}
+
+{% block title %} Listado infección inicial {% endblock %}
+
+{% block content %}
+
+<form class="row g-3 m-2" method='get'>
+    <div class="row">
+      <div class="col-auto">
+      <label for="id_empresa" class="col-form-label"><strong>Empresa: </strong></label>
+      {{filter.form.empresa}}
+      </div>
+      <div class="col-4">
+        <button type="submit" class="btn btn-primary mb-3">Filtrar</button>
+      </div>
+    </div>
+</form>
+{% if object_list %}
+<h1>Deteccion inicial</h1>
+<div class="table-responsive">
+    <table class="table align-middle  table-success table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Empresa</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Eliminar</th>
+          </tr>
+        </thead>   
+        <tbody> 
+{% for clima in filter.qs %}
+        
+          <tr>
+            <th scope="row">{{clima.empresa}}</th>
+            <td>{{clima.fecha}}</td>
+            <td>
+              <a class="btn btn-danger" href="{% url 'extras:aparicion_delete' clima.id %}">Eliminar</a>
+            </td>
+          </tr>
+        
+    {% endfor %}
+  </tbody>
+{% else %}
+<h1>No existen registros de deteccion inicial</h1>
+{% endif %}
+
+</table>
+
+
+</div>
+{% endblock content %}
+

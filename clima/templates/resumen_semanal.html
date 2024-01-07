@@ -1,0 +1,64 @@
+{% extends 'index_admin.html' %}
+{% load static %}
+
+{% block title %} Monitoreo semanal {% endblock %}
+
+{% block content %}
+<form class="row g-3 m-2" method='post'>
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-auto">
+      <label for="fecha" class="form-label">Fecha</label>
+      </div>
+      <div class="col-auto">
+         <input id="fecha" type="date" class="form-control" name='fecha' required>
+      </div>
+      <div class="col-auto">
+        <select class="form-select" aria-label="Empresa del Reporte" name='empresa' required>
+            <option selected>Seleccionar una empresa</option>
+            {% for emp in empresas %}
+                <option value={{emp.id}}>{{emp}}</option>
+            {% endfor %}
+         </select>
+      </div>
+      <div class="col-4">
+        <button type="submit" class="btn btn-primary mb-3">Generar</button>
+      </div>
+    </div>
+</form>
+{% if datos %}
+<div class="card text-center">
+    <div class="card-header">
+      <h1>Resumen</h1>
+      <h2>Desde: {{datos.start|date}}</h2>
+      <h2>Hasta: {{datos.end|date}}</h2>
+      <div class="text-muted">
+        Días tenidos en cuenta: {{datos.dias}}
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="list-group">
+      <li class="list-group-item"><h2 class="card-text">Empresa: {{datos.empresa}}</h2></li>
+      <li class="list-group-item"><h2 class="card-text">Acumulado de severidad: {{datos.severidad}}</h2></li>
+      <li class="list-group-item"><h2 class="card-text">Días favorables: {{datos.dias_favorables}}</h2></li>
+      {% if  datos.deteccion > 0 %}
+      <li class="list-group-item"><h2 class="card-text">Hace {{datos.deteccion}} días se produjo la detección inicial</h2></li>
+      <li class="list-group-item"><h2 class="card-text">Correspondería la señal de {{datos.alerta}}</h2></li>
+      <li class="list-group-item"><h2 class="card-text">Ultima alerta enviada a la empresa: {{datos.ult_alerta|date}}</h2> </li>
+      {% else %}
+      <li class="list-group-item"><h2 class="card-text">No se ha producido detección inicial</h2></li>
+      {% endif %}
+      </div>
+      <a href="{% url 'mensajes:redactar_mensaje' %}" class="btn btn-primary mt-2">Redactar Mensaje</a>
+    </div>
+    <div class="card-footer text-muted py-4 align-top">
+      Días tenidos en cuenta: {{datos.dias}}
+    </div>
+</div>
+{% else %}
+<h1>No existen datos con estos parámetros</h1>
+{% endif %}
+
+
+{% endblock content %}
+

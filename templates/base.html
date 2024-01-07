@@ -1,0 +1,95 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>{% block title %} Document Base {% endblock %}</title>
+
+
+    <!-- Bootstrap -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!--CSS-->
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/Chart.min.css' %}">
+
+
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        {% block header %}
+        <h1>Header de la base</h1>
+        {% endblock %}
+    </header>
+
+    <main>
+        {% block content%}
+        <h1>Contenidos base</h1>
+        {% endblock %}
+    </main>
+
+
+    <!-- Footer -->
+    {% block footer %}
+    
+    <footer class="row py-1 bg-light fixed-bottom">
+        <div class="container-fluid px-4">
+            <div class="d-flex align-items-center justify-content-between small">
+                <div class="text-muted"><img style="width:50px" src="{% static "images/uclv.jpg" %}" class="img-fluid" alt="..."> Creado en UCLV &middot; Información INSMET</div>
+                <div>
+                    <a type="button" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Contáctenos </a> &middot;
+                    <a href="{% url 'multimedia:downloadManual' %}" download>Ayuda</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Contactos</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <ul class="list-group">
+                <li>Soporte técnico
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-info">Daniela: dgescobar@uclv.cu</li>
+                    <li class="list-group-item list-group-item-info">Alejandro: acferriol@uclv.cu</li>
+                </ul>
+                </li>
+                <li class="mt-4">Asesoría
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-info">Profesor Saucedo: saucedo@uclv.edu.cu</li>
+                    </ul>
+                    </li>
+              </ul>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Entendido</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endblock %}
+
+    <!-- Bootstrap y jquery-->
+    <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'js/jquery-3.6.0.slim.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <!--script src="{% static 'js/bootstrap.bundle.min.js' %}"></script-->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/Chart.min.js' %}"></script>
+
+</body>
+
+
+</html>

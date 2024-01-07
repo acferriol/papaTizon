@@ -1,0 +1,16 @@
+{% extends 'index_admin.html' %}
+{% load static %}
+
+{% block title %} Eliminar % de infestación {% endblock %}
+
+{% block content %}
+<div class="container">
+<form method="post">
+    
+    {% csrf_token %}
+    <h3>Está seguro que desea eliminar:</h3>
+    <button class="btn btn-danger" type="submit">Eliminar</button>
+    <a class="btn btn-secondary" href="{% url 'extras:porcentaje_list' %}">Cancelar</a>
+</form>
+</div>
+{% endblock content %}

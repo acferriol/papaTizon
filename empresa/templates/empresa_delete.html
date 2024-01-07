@@ -1,0 +1,16 @@
+{% extends 'index_admin.html' %}
+{% load static %}
+
+{% block title %} Eliminar empresa {% endblock %}
+
+{% block content %}
+<div class="container">
+<form method="post">
+    
+    {% csrf_token %}
+    <h3>Está seguro que desea eliminar la empresa {{object.nombre}} :</h3>
+    <button class="btn btn-danger" type="submit">Eliminar</button>
+    <a class="btn btn-secondary" href="{% url 'empresa:lista_empresa' %}">Cancelar</a>
+</form>
+</div>
+{% endblock content %}

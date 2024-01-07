@@ -1,0 +1,84 @@
+{% extends 'index_admin.html' %}
+{% load static %}
+
+
+{% block title %} Ingresar Datos {% endblock %}
+
+{% block content %}
+<div class="container ">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                <div class="card-header bg-primary"><h3 class="text-center font-weight-light my-4">Clima de hoy</h3>
+                    {% if form.errors %}
+                    <p>{{form.errors}}</p>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                       
+                        <div class="row border border-primary mb-3 p-1">
+                            <h5 class="card-title">Información general</h5>
+                            <div class="col-md-6">
+                            {{form.fecha.label}}
+                            {{form.fecha}}
+                            </div>
+                            <div class="col-md-6">
+                            {{form.estacion.label}}
+                            {{form.estacion}}
+                            </div>
+                        </div>
+                        <br>
+                       
+                        <div class="row border border-primary mb-3 p-1">
+                            <h5 class="card-title">Método 1 de diagnóstico</h5>
+                            <div class="col-md-3">
+                            {{form.temperatura_media.label}}
+                            {{form.temperatura_media}}
+                            </div>
+                            <div class="col-md-3">
+                            {{form.temperatura_maxima.label}}
+                            {{form.temperatura_maxima}}
+                            </div>
+                            <div class="col-md-3">
+                            {{form.temperatura_minima.label}}
+                            {{form.temperatura_minima}}
+                            </div>
+                            <div class="col-md-3">
+                            {{form.precipitacion.label}}
+                            {{form.precipitacion}}
+                            </div>
+                        </div>
+                        <br>
+                        
+                        <div class="row border border-primary mb-3 p-1">
+                            <h5 class="card-title">Método 2 de diagnóstico</h5>
+                            <div class="col-md-6">
+                            {{form.horas_hr_90.label}}
+                            {{form.horas_hr_90}}
+                            </div>
+                            <div class="col-md-6">
+                            {{form.temperatura_media_hr_90.label}}
+                            {{form.temperatura_media_hr_90}}
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                        <button class="btn btn-primary" type="submit">Ingresar</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-center  align-text-top py-3">
+                    {% if tipo %}
+                        <h3>Diagnóstico de Infección Secundaria</h3>
+                    {% else %}
+                        <h3>Diagnóstico inicial</h3>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
