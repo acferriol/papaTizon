@@ -16,6 +16,7 @@
             <th scope="col">Representante</th>
             <th scope="col">Municipio</th>
             <th scope="col">Provincia</th>
+            <th scope="col">Variedad Act.</th>
             <th scope="col">Opciones</th>
           </tr>
         </thead>    
@@ -29,6 +30,7 @@
             <td>{{empresa.representante}}</td>
             <td>{{empresa.municipio}}</td>
             <td>{{empresa.provincia}}</td>
+            <td>{{empresa.variedad_actual}}</td>
             <td>
                 <a class="btn btn-success" href="{% url 'empresa:editar_empresa' empresa.id %}">Editar</a>
                 <a class="btn btn-danger" href="{% url 'empresa:eliminar_empresa' empresa.id %}">Eliminar</a>
