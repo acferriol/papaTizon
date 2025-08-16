@@ -162,7 +162,8 @@ def deteccion_inicial(id):
     nwclima.save()
 
 
-def buscar_senal(acum_severidad, dias_fav):
+def buscar_senal(acum_severidad, dias_fav, variedad):
+
     senales = {
         -1: "No aspersion",
         0: "Alerta de tizón",
@@ -174,17 +175,25 @@ def buscar_senal(acum_severidad, dias_fav):
         if acum_severidad <= 3:
             return senales[-1]
         elif acum_severidad == 4:
+            if variedad == "arrosetada":
+                return senales[1]
             return senales[0]
-        elif acum_severidad == 5 or acum_severidad == 6:
+        elif acum_severidad == 5:
+            if variedad == "rastrero":
+                return senales[2]
+            return senales[1]
+        elif acum_severidad == 6:
             return senales[1]
         else:
             return senales[2]
     else:
         if acum_severidad < 3:
-            return senales[1]
+            return senales[-1]
         elif acum_severidad == 3:
             return senales[0]
         elif acum_severidad == 4:
+            if variedad == "arrosetada":
+                return senales[2]
             return senales[1]
         else:
             return senales[2]
