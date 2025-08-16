@@ -6,68 +6,79 @@ from estacion.models import Estacion
 class EmpresaForm(forms.ModelForm):
 
     nombre = forms.CharField(
-        label = "Nombre",
+        label="Nombre",
         widget=forms.TextInput(
-            attrs={
-                "class":"form-control",
-                "placeholder":"Nombre"
-            }
-        )
+            attrs={"class": "form-control", "placeholder": "Nombre"}
+        ),
     )
     representante = forms.CharField(
-        label = "Representante",
+        label="Representante",
         widget=forms.TextInput(
-            attrs={
-                "class":"form-control",
-                "placeholder":"Persona Representante"
-            }
-        )
+            attrs={"class": "form-control", "placeholder": "Persona Representante"}
+        ),
     )
     municipio = forms.CharField(
-        label = "Municipio",
+        label="Municipio",
         widget=forms.TextInput(
-            attrs={
-                "class":"form-control",
-                "placeholder":"Municipio"
-            }
-        )
+            attrs={"class": "form-control", "placeholder": "Municipio"}
+        ),
     )
     PROVINCIAS = (
-        ("Pinar del Rio","Pinar del Rio"),
-        ("La Habana","La Habana"),
-        ("Artemisa","Artemisa"),
-        ("Mayabeque","Mayabeque"),
-        ("Isla de la Juventud","Isla de la Juventud"),
-        ("Matanzas","Matanzas"),
-        ("Villa Clara","Villa Clara"),
-        ("Cienfuegos","Cienfuegos"),
-        ("Ciego de Avila","Ciego de Avila"),
-        ("Sancti Spiritus","Sancti Spiritus"),
-        ("Camaguey","Camaguey"),
-        ("Las Tunas","Las Tunas"),
-        ("Holguin","Holguin"),
-        ("Granma","Granma"),
-        ("Santiago de Cuba","Santiago de Cuba"),
-        ("Guantanamo","Guantanamo")
+        ("Pinar del Rio", "Pinar del Rio"),
+        ("La Habana", "La Habana"),
+        ("Artemisa", "Artemisa"),
+        ("Mayabeque", "Mayabeque"),
+        ("Isla de la Juventud", "Isla de la Juventud"),
+        ("Matanzas", "Matanzas"),
+        ("Villa Clara", "Villa Clara"),
+        ("Cienfuegos", "Cienfuegos"),
+        ("Ciego de Avila", "Ciego de Avila"),
+        ("Sancti Spiritus", "Sancti Spiritus"),
+        ("Camaguey", "Camaguey"),
+        ("Las Tunas", "Las Tunas"),
+        ("Holguin", "Holguin"),
+        ("Granma", "Granma"),
+        ("Santiago de Cuba", "Santiago de Cuba"),
+        ("Guantanamo", "Guantanamo"),
     )
 
     provincia = forms.ChoiceField(
-        label = "Provincia",
+        label="Provincia",
         choices=PROVINCIAS,
         widget=forms.Select(
             attrs={
-                "class":"form-select",
-                "placeholder":"Provincia",
+                "class": "form-select",
+                "placeholder": "Provincia",
             }
-        )
+        ),
     )
-    
 
+    TVARIEDAD = (
+        ("erecto", "erecto"),
+        ("rastrero", "rastrero"),
+        ("arrosetada", "arrosetada"),
+    )
+
+    variedad_actual = forms.ChoiceField(
+        label="Variedad de papa",
+        choices=TVARIEDAD,
+        widget=forms.Select(
+            attrs={
+                "class": "form-select",
+                "placeholder": "Variedad",
+            }
+        ),
+    )
 
     class Meta:
         model = Empresa
-        fields = ('nombre','estacion','representante','municipio' ,'provincia')
-        labels = {'estacion':"Estacion"}
-        widgets = {'estacion':forms.Select(attrs={'class':'form-control'})}
-        
-            
+        fields = (
+            "nombre",
+            "estacion",
+            "representante",
+            "municipio",
+            "provincia",
+            "variedad_actual",
+        )
+        labels = {"estacion": "Estacion"}
+        widgets = {"estacion": forms.Select(attrs={"class": "form-control"})}
