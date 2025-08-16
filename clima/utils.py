@@ -141,24 +141,31 @@ def deteccion_inicial(id):
             
 
 def buscar_senal(acum_severidad, dias_fav):
+    senales = {
+        -1: 'No aspersion',
+        0: 'Alerta de tizón',
+        1: 'Aspersión cada 7 días',
+        2: 'Aspersión cada 5 días'
+    }
+
     if dias_fav < 5:
         if acum_severidad <=3:
-            return 'No aspersion'
+            return senales[-1]
         elif acum_severidad == 4:
-            return 'Alerta de tizón'
+            return senales[0]
         elif acum_severidad == 5 or acum_severidad == 6:
-            return 'Aspersión cada 7 días'
+            return senales[1]
         else:
-            return 'Aspersión cada 5 días'
+            return senales[2]
     else:
         if acum_severidad < 3:
-            return 'Aspersión cada 7 días'
+            return senales[1]
         elif acum_severidad == 3:
-            return 'Alerta de tizón'
+            return senales[0]
         elif acum_severidad == 4:
-            return 'Aspersión cada 7 días'
+            return senales[1]
         else:
-            return 'Aspersión cada 5 días'
+            return senales[2]
 
 def ultima_alerta(id_empresa):
     sol = Mensajes.objects.all().filter(tipodemensaje='A').filter(destinatario__empresa=id_empresa).order_by('created_at').reverse()
