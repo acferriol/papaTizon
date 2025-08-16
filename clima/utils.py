@@ -65,7 +65,7 @@ def clasificar_dia(id):
                 avg_tm = five_days.aggregate(Avg("temperatura_media"))[
                     "temperatura_media__avg"
                 ]
-                print(total_prec, tmin, tmax, avg_tm)
+                # print(total_prec, tmin, tmax, avg_tm)
                 fav = 0
                 if total_prec >= 24.5 and tmin > 7.0 and tmax < 30.0 and avg_tm <= 25.0:
                     fav = 1
@@ -120,7 +120,7 @@ def severidad(id):
 
 
 def deteccion_inicial(id):
-    # print("Hello")
+
     nwclima = Clima.objects.get(id=id)
     # Ultimos 6 dias validos
     six_days = Clima.objects.all().order_by("fecha").reverse()
