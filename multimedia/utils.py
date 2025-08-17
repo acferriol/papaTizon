@@ -127,7 +127,7 @@ def contextGraph(datos):
                 else:
                     semanal.append((clima[i]["fecha"], 6))  # Aspersion cada 5 dias
                     colors2.append("red")
-    if deti[0] is not None and deti[0]["fecha"] <= end:
+    if len(deti) > 0 and deti[0] is not None and deti[0]["fecha"] <= end:
         semanal.append((deti[0]["fecha"], 2))  # Registro de Aparicion
         colors2.append("black")
     #######################
