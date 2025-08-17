@@ -48,7 +48,7 @@ class Command(BaseCommand):
             empresa, created = Empresa.objects.get_or_create(
                 nombre=f"Empresa {i}",
                 defaults={
-                    "estacion": choice(estaciones),
+                    "estacion": estaciones[i % 3],
                     "representante": f"Rep {i}",
                     "municipio": f"Municipio {i}",
                     "provincia": "La Habana",
@@ -82,9 +82,9 @@ class Command(BaseCommand):
                     precipitacion=(
                         round(uniform(4.0, 20.0), 1) if randint(0, 1) else 5.0
                     ),
-                    horas_hr_90=round(uniform(0.0, 24.0), 1) if randint(0, 1) else 18,
+                    horas_hr_90=round(uniform(0.0, 24.0), 1) if randint(0, 1) else 9,
                     temperatura_media_hr_90=(
-                        round(uniform(15.0, 30.0), 1) if randint(0, 1) else 25
+                        round(uniform(10.0, 30.0), 1) if randint(0, 1) else 11
                     ),
                 )
 

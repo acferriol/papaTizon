@@ -21,32 +21,17 @@ def clasificar_dia(id):
     else:
         # Ultimos 6 dias validos
         six_days = (
-            Clima.objects.exclude(
-                temperatura_maxima=None,
-                temperatura_media=None,
-                temperatura_minima=None,
-                precipitacion=None,
-            )
+            Clima.objects.filter(estacion_id=nwclima.estacion.num_estacion)
             .order_by("fecha")
-            .reverse()[1:7]
+            .reverse()
         )
 
-        five_days = (
-            Clima.objects.exclude(
-                temperatura_maxima=None,
-                temperatura_media=None,
-                temperatura_minima=None,
-                precipitacion=None,
-            )
-            .order_by("fecha")
-            .reverse()[1:6]
-        )
-
-        # Comprobando que existan 6 dias validos
         if len(six_days) < 6:
             nwclima.favorable = -1
         else:
-            # Comprobando que la diferencia no fue mas de 3 dias
+            six_days = six_days[:6]
+            five_days = six_days[:5]
+
             dif = True
             for i in range(1, 6):
                 if (six_days[i].fecha - six_days[i - 1].fecha).days > 2:
@@ -55,17 +40,16 @@ def clasificar_dia(id):
             if not dif:
                 nwclima.favorable = -1
             else:
-                total_prec = six_days.aggregate(Sum("precipitacion"))[
-                    "precipitacion__sum"
-                ]
-                # tmin = six_days.aggregate(Min('temperatura_minima'))['temperatura_minima__min']
+                total_prec = 0
+                for day in six_days:
+                    total_prec += day.precipitacion
+
                 tmin = nwclima.temperatura_minima
-                # tmax = six_days.aggregate(Max('temperatura_maxima'))['temperatura_maxima__max']
                 tmax = nwclima.temperatura_maxima
-                avg_tm = five_days.aggregate(Avg("temperatura_media"))[
-                    "temperatura_media__avg"
-                ]
-                # print(total_prec, tmin, tmax, avg_tm)
+                avg_tm = 0
+                for day in five_days:
+                    avg_tm += day.temperatura_media
+                avg_tm = float(avg_tm) / 5.0
                 fav = 0
                 if total_prec >= 24.5 and tmin > 7.0 and tmax < 30.0 and avg_tm <= 25.0:
                     fav = 1
@@ -123,7 +107,11 @@ def deteccion_inicial(id):
 
     nwclima = Clima.objects.get(id=id)
     # Ultimos 6 dias validos
-    six_days = Clima.objects.all().order_by("fecha").reverse()
+    six_days = (
+        Clima.objects.filter(estacion_id=nwclima.estacion.num_estacion)
+        .order_by("fecha")
+        .reverse()
+    )
     # Comprobando que existan 6 dias validos
     if len(six_days) < 6:
         nwclima.deteccion_inicial = 0
